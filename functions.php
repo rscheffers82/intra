@@ -13,11 +13,21 @@
     add_action( 'wp_enqueue_scripts', 'my_theme_enqueue_styles' );
 
 
+    // Helper function that returns true or false depending on whether the user has tegoeden enabled
+    function tegoeden_are_enabled($user) {
+        if (!$user) return;
+        $has_tegoed = get_user_meta( $user->ID, 'enable_tegoeden', 'single' );
+        return $has_tegoed === "true";
+    }
+    
     /* 
      *  BuddyPress add additional tabs Studie bedrag & Studie dagen
      */
 
     function ibenic_buddypress_tab() {
+        $user = wp_get_current_user();
+        if (!tegoeden_are_enabled($user)) return;
+        
         global $bp;
         bp_core_new_nav_item( array( 
             'name' => __( 'Studie bedrag', 'ibenic' ), 
@@ -34,20 +44,20 @@
             'screen_function' => 'ibenic_budypress_studie_dagen',
             'show_for_displayed_user' => true,
             'item_css_id' => 'fa-calendar',
-        ) );
+        ) );    
     }
     add_action( 'bp_setup_nav', 'ibenic_buddypress_tab', 1000 );
 
     // Populate the bedrag tab
     function ibenic_budypress_studie_bedrag () {
-        add_action( 'bp_template_title', function () { _e( 'Tegoed aantal studie dagen', 'ibenic' ); } );
+        add_action( 'bp_template_title', function () { _e( 'Bedrag aan studie tegoed', 'ibenic' ); } );
         add_action( 'bp_template_content', function () { display_tegoed('bedrag'); } );
         bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
     }
 
     // Populate the dagen tab
     function ibenic_budypress_studie_dagen () {
-        add_action( 'bp_template_title', function () { _e( 'Bedrag aan studie tegoed', 'ibenic' ); } );
+        add_action( 'bp_template_title', function () { _e( 'Tegoed aantal studie dagen', 'ibenic' ); } );
         add_action( 'bp_template_content', function () { display_tegoed('dagen'); } );
         bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
     }
@@ -86,7 +96,7 @@
             'post_type'         => 'tegoeden',
             'orderby'           => 'publish_date',
             'order'             => 'DESC',
-            'posts_per_page'    => -1,
+            'posts_per_page'    => 36,
             'meta_query'        => array(
                 array(
                 array( 'key' => 'type', 'value' => $type, 'compare' => '=' ),
@@ -227,9 +237,10 @@
         $field['choices'] = array();
 
         $employees = get_users();
-        foreach ($employees as $user) {
-            $add_tegoed = get_post_meta( $user->ID, 'enable_tegoeden', 'single' );
-            $field['choices'][$user->ID] = $user->display_name . ' - ' . $add_tegoed;
+        foreach ($employees as $user) {           
+            if (tegoeden_are_enabled($user)) {
+                $field['choices'][$user->ID] = $user->display_name;
+            }
         }
         return $field;
     }
