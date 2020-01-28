@@ -20,6 +20,18 @@
         return $has_tegoed === "true";
     }
 
+    // Helper function returning an array containing all userIds of users that have tegoeden enabled
+    function getDeveloperIds() {
+        $user_ids = array();
+        $employees = get_users();
+        foreach ($employees as $user) {           
+            if (tegoeden_are_enabled($user)) {
+                $user_ids[] = $user->ID;
+            }
+        }
+        return $user_ids;
+    }
+
 
     // Helper function used by display_tegoed() and ibenic_buddypress_tab() to calculate the total of studie bedrag or studie dagen
     function calculateTotal($type) {
@@ -251,6 +263,76 @@
         return $field;
     }
     add_filter('acf/load_field/name=medewerker', 'acf_load_medewerker_choices');
-    
-?>
 
+
+    /* 
+     *  Crop Job code
+     *  For debugging, the Crontrol WP plugin can be helpful to see the scheduled cron jobs
+     */
+
+    // When no cron is available yet, add an hourly cron to fire the tegoeden_hourly_crop_job action.
+    function activate_tegoeden_cron() {
+        if (!wp_next_scheduled('tegoeden_hourly_crop_job')) {
+            $at_six_am = strtotime('06:00:00');
+            wp_schedule_event($at_six_am, 'daily', 'tegoeden_hourly_crop_job');
+        }    
+    }
+
+    // Call the actual function to activate the cron. It'll only run once.
+    activate_tegoeden_cron();
+
+    // Linking the tegoeden_hourly_crop_job to the check_dates_add_tegoeden function
+    add_action( 'tegoeden_hourly_crop_job',  'check_dates_add_tegoeden' );
+
+    // Check if the it's the 1st of the month and fire the monthly or half yearly functions.
+    function check_dates_add_tegoeden() {
+        $month = date('m');
+        $day = date('d');
+        if ('01' === $day || true) {
+            // run the monthly studie dagen function every 1st day of the month
+            monthly_dagen_update();
+
+            if ('01' === $month || '06' === $month) {
+                // run the six monthly studie tegoeden function only in January and June.
+                half_yearly_bedrag_update();
+            }
+        }
+    }
+    add_action('check_dates_add_tegoeden_cron', 'check_dates_add_tegoeden');
+
+
+    function monthly_dagen_update() {
+        $developerIds = getDeveloperIds();
+        foreach($developerIds as $id) {
+            $post_id = wp_insert_post(array(
+                'post_title' => 'Maandelijkse studie dag',
+                'post_type' => 'tegoeden', 
+                'post_content' => '',
+                'post_status' => 'publish',
+                'meta_input' => array(
+                    'type' => 'dagen',
+                    'medewerker' => $id,
+                    'aanpassing' => 1,
+                ),
+            ));    
+        }
+    }
+
+    function half_yearly_bedrag_update() {
+        $developerIds = getDeveloperIds();
+        foreach($developerIds as $id) {
+            $post_id = wp_insert_post(array(
+                'post_title' => 'Halfjaarlijks studie tegoed', 
+                'post_type' => 'tegoeden', 
+                'post_content' => '',
+                'post_status' => 'publish',
+                'meta_input' => array(
+                    'type' => 'bedrag',
+                    'medewerker' => $id,
+                    'aanpassing' => 250,
+                ),
+            ));    
+        }
+    }
+
+?>
