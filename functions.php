@@ -49,8 +49,9 @@
                 )
             )
         ));
+
+        $sum = 0;
         if ( $the_query->have_posts() ) {
-            $sum = 0;
             while ($the_query->have_posts()) : $the_query->the_post();
             $sum += get_post_meta( get_the_ID(), 'aanpassing', 'single' );
             endwhile;
@@ -270,19 +271,19 @@
      *  For debugging, the Crontrol WP plugin can be helpful to see the scheduled cron jobs
      */
 
-    // When no cron is available yet, add an hourly cron to fire the tegoeden_hourly_crop_job action.
+    // When no cron is set yet, add an hourly cron to fire the tegoeden_hourly_cron_job action.
     function activate_tegoeden_cron() {
-        if (!wp_next_scheduled('tegoeden_hourly_crop_job')) {
+        if (!wp_next_scheduled('tegoeden_hourly_cron_job')) {
             $at_six_am = strtotime('06:00:00');
-            wp_schedule_event($at_six_am, 'daily', 'tegoeden_hourly_crop_job');
+            wp_schedule_event($at_six_am, 'daily', 'tegoeden_hourly_cron_job');
         }    
     }
 
     // Call the actual function to activate the cron. It'll only run once.
     activate_tegoeden_cron();
 
-    // Linking the tegoeden_hourly_crop_job to the check_dates_add_tegoeden function
-    add_action( 'tegoeden_hourly_crop_job',  'check_dates_add_tegoeden' );
+    // Linking the tegoeden_hourly_cron_job to the check_dates_add_tegoeden function
+    add_action( 'tegoeden_hourly_cron_job',  'check_dates_add_tegoeden' );
 
     // Check if the it's the 1st of the month and fire the monthly or half yearly functions.
     function check_dates_add_tegoeden() {
@@ -300,7 +301,7 @@
     }
     add_action('check_dates_add_tegoeden_cron', 'check_dates_add_tegoeden');
 
-
+    // Add for each developer 1 studie dag
     function monthly_dagen_update() {
         $developerIds = getDeveloperIds();
         foreach($developerIds as $id) {
@@ -318,6 +319,7 @@
         }
     }
 
+    // Add for each developer 250 studie tegoed
     function half_yearly_bedrag_update() {
         $developerIds = getDeveloperIds();
         foreach($developerIds as $id) {
