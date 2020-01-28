@@ -1,0 +1,546 @@
+/*
+ Theme Name:    Woffice-child
+ Theme URI:     https://woffice.io
+ Author:        Alkaweb Team
+ Author URI:    http://themeforest.net/user/alkaweb
+ Description:   Woffice - Intranet/Extranet Multipurpose WordPress theme
+ Version:       2.6.1
+ Template:      woffice
+ License:       GNU General Public License v2 or later
+ License URI:   http://www.gnu.org/licenses/gpl-2.0.html
+ Tags:          two-columns, right-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-menu, editor-style, buddypress, featured-images, sticky-post, threaded-comments, translation-ready
+ Text Domain:   woffice
+ Domain Path:   /languages
+ */
+
+/* CUSTOM CSS (SAM VAN DER HEIJDEN) */
+.ngg-album-compactbox .Thumb {
+  width: 213px;
+  height: 160px;
+  object-fit: cover;
+}
+.ngg-album-compact h4 {
+  max-width: 200px;
+}
+
+.ngg-albumoverview .ngg-album-compact h4 a.ngg-album-desc {
+  height: 50px !important;
+  display: block !important;
+}
+
+.fa.fa-tachometer::before {
+  content: "" !important;
+}
+
+footer #widgets .widget ul li a {
+  display: inline-block;
+}
+footer #widgets .widget ul li a:hover {
+  margin-right: -10px;
+}
+
+/* #region General styling */
+
+/* #endregion */
+
+/* #region Global */
+
+.comment-form-comment {
+  display: inline-block;
+}
+
+.comment-form-comment label {
+  float: left;
+  width: 100%;
+}
+
+.comment-form-comment textarea {
+  max-width: 100%;
+  float: left;
+}
+
+/* #endregion */
+
+/* #region Dashboard */
+
+/* #endregion */
+
+/* #region News */
+
+/* Author box */
+div.blog-authorbox-right h3 {
+  overflow-wrap: break-word;
+}
+
+/* #endregion */
+
+/* #region Calendar */
+
+/* #endregion */
+
+/* #region Members */
+
+/* Member card */
+
+.item .item-title a h3 {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.woffice-xprofile-list span a {
+  display: inline-block;
+  width: calc(100% - 35px);
+  line-height: 24px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.item .woffice-xprofile-list {
+  margin-top: 10px;
+}
+
+.woffice-xprofile-list span i {
+  float: left;
+}
+
+/* #endregion */
+
+/* #region Projects */
+
+/* Project links */
+
+#project-links li a {
+  display: inline-flex;
+}
+
+/* Comments */
+
+/* Log out button. */
+.logged-in-as a:nth-last-child(1) {
+  float: right;
+}
+
+/* #endregion */
+
+/* #region Groups */
+
+#item-header-content #item-meta {
+  width: 100%;
+}
+
+#item-header-avatar img {
+  transition-duration: 1s;
+}
+
+#buddypress #item-header #cover-image-container div#item-actions {
+  transition-duration: 1s;
+  width: fit-content;
+  margin-left: 0px;
+}
+
+#buddypress #item-header #cover-image-container div#item-actions h3 {
+  font-size: 20px;
+}
+
+/* #endregion */
+
+/* #region Directory */
+
+/* #endregion */
+
+/* #region Wiki */
+
+/* #endregion */
+
+/* #region Files manager */
+
+/* #endregion */
+
+/* Tables */
+
+table tr {
+  border: 1px solid #dcdcdc;
+}
+
+th,
+td {
+  padding-left: 20px !important;
+}
+
+/* #region Media (Responsiveness) */
+
+@media only screen and (max-width: 449px) {
+  div.blog-authorbox {
+    text-align: center;
+  }
+
+  div.blog-authorbox img {
+    float: none;
+  }
+
+  div.blog-authorbox .blog-authorbox-right {
+    float: none;
+    padding-left: 0px;
+  }
+
+  div.blog-authorbox .blog-like-container {
+    float: none;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .item .woffice-xprofile-list {
+    width: fit-content;
+    display: inline-grid;
+  }
+
+  .item .woffice-xprofile-list span {
+    display: inline-block;
+    width: 100%;
+  }
+
+  /* Files manager */
+
+  .ssfa-center thead tr th:nth-last-child(2) {
+    display: none;
+  }
+
+  .ssfa-center tbody tr td:nth-last-child(2) {
+    display: none;
+  }
+
+  /* Groups */
+
+  /* Group admins list */
+  #buddypress #item-header #cover-image-container div#item-actions {
+    width: 100%;
+    display: block;
+    text-align: center;
+    float: right;
+    margin-bottom: 28px;
+  }
+
+  #buddypress #item-header #cover-image-container div#item-actions h3 {
+    display: block;
+    float: right;
+    width: 100%;
+    text-align: center;
+  }
+
+  #buddypress
+    #item-header
+    #cover-image-container
+    div#item-actions
+    ul#group-admins {
+    display: inline-block;
+    text-align: center;
+    width: 200px;
+    padding: 0px;
+    margin: 10px 0px 0px 0px;
+  }
+
+  #buddypress
+    #item-header
+    #cover-image-container
+    div#item-actions
+    ul#group-admins
+    li {
+    display: contents;
+    text-align: center;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 2px;
+  }
+
+  #buddypress
+    #item-header
+    #cover-image-container
+    div#item-actions
+    ul#group-admins
+    li
+    a
+    img {
+    margin: 2px;
+    width: 30px;
+    height: 30px;
+  }
+
+  /* group header (Image and description text) */
+  #item-header-cover-image {
+    display: inline-block;
+    width: 100%;
+  }
+
+  #item-header-content {
+    display: inline-block;
+  }
+
+  #item-header-cover-image #item-header-content #item-buttons .group-button {
+    margin: 10px;
+    margin-top: 0px;
+  }
+
+  #item-header-content #item-meta p {
+    max-width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media only screen and (min-width: 450px) and (max-width: 600px) {
+  div.blog-authorbox {
+    text-align: center;
+  }
+
+  div.blog-authorbox img {
+    float: none;
+  }
+
+  div.blog-authorbox .blog-authorbox-right {
+    float: none;
+    padding-left: 0px;
+  }
+
+  div.blog-authorbox .blog-like-container {
+    float: none;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .item .woffice-xprofile-list {
+    width: fit-content;
+    display: inline-grid;
+  }
+
+  .item .woffice-xprofile-list span {
+    display: inline-block;
+    width: 100%;
+  }
+
+  /* Files manager */
+
+  .ssfa-center thead tr th:nth-last-child(2) {
+    display: none;
+  }
+
+  .ssfa-center tbody tr td:nth-last-child(2) {
+    display: none;
+  }
+
+  /* Groups */
+
+  /* Group admins list */
+  #buddypress #item-header #cover-image-container div#item-actions {
+    width: 100%;
+    display: block;
+    text-align: center;
+    float: right;
+    margin-bottom: 28px;
+  }
+
+  #buddypress #item-header #cover-image-container div#item-actions h3 {
+    display: block;
+    float: right;
+    width: 100%;
+    text-align: center;
+  }
+
+  #buddypress
+    #item-header
+    #cover-image-container
+    div#item-actions
+    ul#group-admins {
+    display: inline-block;
+    text-align: center;
+    width: 200px;
+    padding: 0px;
+    margin: 10px 0px 0px 0px;
+  }
+
+  #buddypress
+    #item-header
+    #cover-image-container
+    div#item-actions
+    ul#group-admins
+    li {
+    display: contents;
+    text-align: center;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 2px;
+  }
+
+  #buddypress
+    #item-header
+    #cover-image-container
+    div#item-actions
+    ul#group-admins
+    li
+    a
+    img {
+    margin: 2px;
+    width: 30px;
+    height: 30px;
+  }
+
+  /* group header (Image and description text) */
+  #item-header-cover-image {
+    display: inline-block;
+    width: 100%;
+  }
+
+  #item-header-content {
+    display: inline-block;
+  }
+
+  #item-header-cover-image #item-header-content #item-buttons .group-button {
+    margin: 10px;
+    margin-top: 0px;
+  }
+
+  #item-header-content #item-meta p {
+    max-width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 768px) {
+  div.blog-authorbox {
+    text-align: center;
+  }
+
+  div.blog-authorbox img {
+    float: none;
+  }
+
+  div.blog-authorbox .blog-authorbox-right {
+    float: none;
+    padding-left: 0px;
+  }
+
+  div.blog-authorbox .blog-like-container {
+    float: none;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  /* Files manager */
+
+  .ssfa-center thead tr th:nth-last-child(2) {
+    display: none;
+  }
+
+  .ssfa-center tbody tr td:nth-last-child(2) {
+    display: none;
+  }
+
+  /* Groups */
+
+  /* Group admins list */
+  #buddypress #item-header #cover-image-container div#item-actions {
+    width: 158px;
+    display: block;
+    float: right;
+    margin: 0px;
+    margin-bottom: 28px;
+  }
+
+  #buddypress #item-header #cover-image-container div#item-actions h3 {
+    display: block;
+    float: right;
+    width: 100%;
+    text-align: right;
+  }
+
+  #buddypress
+    #item-header
+    #cover-image-container
+    div#item-actions
+    ul#group-admins {
+    display: block;
+    float: right;
+    padding: 0px;
+    margin: 10px 0px 0px 0px;
+    max-width: 176px;
+  }
+
+  #buddypress
+    #item-header
+    #cover-image-container
+    div#item-actions
+    ul#group-admins
+    li {
+    float: right;
+    margin-left: 4px;
+    margin-right: 0px;
+    margin-bottom: 2px;
+  }
+
+  #buddypress
+    #item-header
+    #cover-image-container
+    div#item-actions
+    ul#group-admins
+    li
+    a
+    img {
+    margin: 2px;
+  }
+
+  /* group header (Image and description text) */
+  #item-header-cover-image {
+    display: inline-block;
+    width: fit-content;
+  }
+
+  #item-header
+    #cover-image-container
+    #item-header-cover-image
+    #item-header-content {
+    display: inline-block;
+    margin-left: 6px;
+  }
+
+  #item-header-cover-image #item-header-content #item-buttons .group-button {
+    margin-top: 0px;
+  }
+
+  #item-header-content #item-meta p {
+    max-width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media only screen and (min-width: 769px) and (max-width: 992px) {
+  #item-header
+    #cover-image-container
+    #item-header-cover-image
+    #item-header-content {
+    max-width: 33%;
+  }
+}
+
+@media only screen and (min-width: 993px) {
+  div.blog-authorbox-right h3 {
+    overflow-wrap: break-word;
+  }
+
+  #item-header
+    #cover-image-container
+    #item-header-cover-image
+    #item-header-content {
+    max-width: 33%;
+  }
+}
+
+/* #endregion */
