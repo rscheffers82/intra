@@ -204,6 +204,16 @@
             "rewrite" => [ "slug" => "tegoeden", "with_front" => true ],
             "query_var" => true,
             "supports" => [ "title", "custom-fields" ],
+            'capabilities' => array(
+                'edit_post'          => 'update_core',
+                'read_post'          => 'update_core',
+                'delete_post'        => 'update_core',
+                'edit_posts'         => 'update_core',
+                'edit_others_posts'  => 'update_core',
+                'delete_posts'       => 'update_core',
+                'publish_posts'      => 'update_core',
+                'read_private_posts' => 'update_core'
+            ),
         ];
     
         register_post_type( "tegoeden", $args );
@@ -289,7 +299,7 @@
     function check_dates_add_tegoeden() {
         $month = date('m');
         $day = date('d');
-        if ('01' === $day || true) {
+        if ('01' === $day) {
             // run the monthly studie dagen function every 1st day of the month
             monthly_dagen_update();
 
