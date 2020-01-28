@@ -544,3 +544,51 @@ td {
 }
 
 /* #endregion */
+
+.tegoed__wrapper {
+  border-top: 3px solid #ffa400;
+}
+
+.tegoed__row {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: stretch;
+}
+
+.tegoed__row div {
+  border-bottom: 1px solid #ccc;
+  padding: 0.5rem;
+}
+
+.tegoed__date {
+  min-width: 150px;
+}
+
+.tegoed__title {
+  flex-grow: 1;
+}
+
+.tegoed__aanpassing {
+  min-width: 50px;
+  text-align: right;
+}
+
+.tegoed__negatief {
+  color: red;
+}
+
+#content-container
+  div#object-nav.item-list-tabs
+  ul
+  li#fa-calendar-personal-li
+  > a::before {
+  content: "\f133";
+}
+
+#content-container
+  div#object-nav.item-list-tabs
+  ul
+  li#fa-money-personal-li
+  > a::before {
+  content: "\f0d6";
+}
