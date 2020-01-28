@@ -19,51 +19,9 @@
         $has_tegoed = get_user_meta( $user->ID, 'enable_tegoeden', 'single' );
         return $has_tegoed === "true";
     }
-    
-    /* 
-     *  BuddyPress add additional tabs Studie bedrag & Studie dagen
-     */
-
-    function ibenic_buddypress_tab() {
-        $user = wp_get_current_user();
-        if (!tegoeden_are_enabled($user)) return;
-        
-        global $bp;
-        bp_core_new_nav_item( array( 
-            'name' => __( 'Studie bedrag', 'ibenic' ), 
-            'slug' => 'studie-bedrag', 
-            'position' => 100,
-            'screen_function' => 'ibenic_budypress_studie_bedrag',
-            'show_for_displayed_user' => true,
-            'item_css_id' => 'fa-money',
-        ) );
-        bp_core_new_nav_item( array( 
-            'name' => __( 'Studie dagen', 'ibenic' ),
-            'slug' => 'studie-dagen', 
-            'position' => 100,
-            'screen_function' => 'ibenic_budypress_studie_dagen',
-            'show_for_displayed_user' => true,
-            'item_css_id' => 'fa-calendar',
-        ) );    
-    }
-    add_action( 'bp_setup_nav', 'ibenic_buddypress_tab', 1000 );
-
-    // Populate the bedrag tab
-    function ibenic_budypress_studie_bedrag () {
-        add_action( 'bp_template_title', function () { _e( 'Bedrag aan studie tegoed', 'ibenic' ); } );
-        add_action( 'bp_template_content', function () { display_tegoed('bedrag'); } );
-        bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
-    }
-
-    // Populate the dagen tab
-    function ibenic_budypress_studie_dagen () {
-        add_action( 'bp_template_title', function () { _e( 'Tegoed aantal studie dagen', 'ibenic' ); } );
-        add_action( 'bp_template_content', function () { display_tegoed('dagen'); } );
-        bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
-    }
 
 
-    // Helper function used by display_tegoed() for showing the total of studie bedrag or studie dagen
+    // Helper function used by display_tegoed() and ibenic_buddypress_tab() to calculate the total of studie bedrag or studie dagen
     function calculateTotal($type) {
         $user_id = get_current_user_id();
         $the_query = new WP_Query(array(
@@ -87,6 +45,55 @@
         }
         wp_reset_postdata();
         return $sum;
+    }
+
+
+    /* 
+     *  BuddyPress add additional tabs Studie bedrag & Studie dagen
+     */
+
+    function ibenic_buddypress_tab() {
+        $user = wp_get_current_user();
+        if (!tegoeden_are_enabled($user)) return;
+
+
+        $bedrag_count  = calculateTotal('bedrag');
+        $bedrag_class  = ( 0 === $bedrag_count ) ? 'no-count' : 'count';
+        $dagen_count  = calculateTotal('dagen');
+        $dagen_class  = ( 0 === $dagen_count ) ? 'no-count' : 'count';
+
+        global $bp;
+        bp_core_new_nav_item( array( 
+            'name'  =>  sprintf( __( 'Studie bedrag <span class="%s">%s</span>', 'woffice' ), esc_attr( $bedrag_class ), number_format_i18n( $bedrag_count ) ),
+            'slug' => 'studie-bedrag', 
+            'position' => 100,
+            'screen_function' => 'ibenic_budypress_studie_bedrag',
+            'show_for_displayed_user' => true,
+            'item_css_id' => 'fa-money',
+        ) );
+        bp_core_new_nav_item( array( 
+            'name'  =>  sprintf( __( 'Studie dagen <span class="%s">%s</span>', 'woffice' ), esc_attr( $dagen_class ), number_format_i18n( $dagen_count ) ),
+            'slug' => 'studie-dagen', 
+            'position' => 100,
+            'screen_function' => 'ibenic_budypress_studie_dagen',
+            'show_for_displayed_user' => true,
+            'item_css_id' => 'fa-calendar',
+        ) );    
+    }
+    add_action( 'bp_setup_nav', 'ibenic_buddypress_tab', 1000 );
+
+    // Populate the bedrag tab
+    function ibenic_budypress_studie_bedrag () {
+        add_action( 'bp_template_title', function () { _e( 'Bedrag aan studie tegoed', 'woffice' ); } );
+        add_action( 'bp_template_content', function () { display_tegoed('bedrag'); } );
+        bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
+    }
+
+    // Populate the dagen tab
+    function ibenic_budypress_studie_dagen () {
+        add_action( 'bp_template_title', function () { _e( 'Tegoed aantal studie dagen', 'woffice' ); } );
+        add_action( 'bp_template_content', function () { display_tegoed('dagen'); } );
+        bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
     }
 
     // Function for displaying the various rows of tegoed (dagen en bedrag) a medewerker has
@@ -230,7 +237,6 @@
         }
     }
     add_action( 'manage_tegoeden_posts_custom_column', 'populate_tegoed_column', 10, 2);
-
 
     // Function for populating the medewerkers custom field
     function acf_load_medewerker_choices( $field ) {
